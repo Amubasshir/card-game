@@ -8,7 +8,7 @@ const header = document.getElementById('header');
 const remainingText = document.getElementById('remaining');
 const computerScoreEl = document.getElementById('computer-score');
 const myScoreEl = document.getElementById('my-score');
-
+drawCardBtn.disabled = true;
 function handleClick() {
   fetch('https://deckofcardsapi.com/api/deck/new/')
     .then((res) => res.json())
@@ -16,6 +16,7 @@ function handleClick() {
       remainingText.textContent = `Remaining cards: ${data.remaining}`;
       deckId = data.deck_id;
       console.log(deckId);
+      drawCardBtn.disabled = false;
     });
 }
 
@@ -34,11 +35,10 @@ drawCardBtn.addEventListener('click', () => {
             `;
       const winnerText = determineCardWinner(data.cards[0], data.cards[1]);
       header.textContent = winnerText;
-
-      if (data.remaining === 0) {
-        drawCardBtn.disabled = true;
-      }
     });
+  if (data.remaining === 0) {
+    drawCardBtn.disabled = true;
+  }
 });
 
 function determineCardWinner(card1, card2) {
